@@ -39,8 +39,17 @@ jQuery(document).ready(function () {
     
 });
 
+var open = new Array();
+var openCard = function (cardID) {
+    $($(".card")[cardID]).addClass("show open");
+    var CardName=$($(".card i")[cardID]).attr("class");
+    open.push(1);
+}
 
-
+$(".card").click(function(event) {
+    var cardID = $(".deck").find("li").index($(event.target));
+    openCard(cardID);
+});
 
 
 
