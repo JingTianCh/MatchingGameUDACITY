@@ -71,6 +71,7 @@ h1 {
     cursor: default;
 }
 
+
 .deck .card.show {
     font-size: 33px;
 }
@@ -106,4 +107,27 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+}
+
+#dialog li{
+    list-style: none;
+    display: inline-block;
+}
+#dialog{
+    background-color: azure;
+    text-align: center;
+    font-size: 150%;
+
+
+}
+.ui-icon {
+    width: 16px;
+    height: 16px;
+    background-color:azure;
+}
+.ui-widget-header {
+    border: 1px solid #aaaaaa;
+    background-color: azure;
+    color: #222222;
+    font-weight: bold;
 }
