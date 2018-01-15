@@ -20,11 +20,26 @@ var mycards = ["fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o
                     "fa-anchor", "fa-anchor", "fa-bolt", "fa-bolt",
                     "fa-cube", "fa-cube", "fa-leaf", "fa-leaf",
                     "fa-bicycle", "fa-bicycle", "fa-bomb", "fa-bomb"];
-var open = new Array();
+var open = [];
 
 var moveC=0;
 var pairOfCards=0;
 var stars=3;
+var timeCounter=0;
+var t;
+
+var timeCount=function(){
+ $("#timer").text(timeCounter);
+        timeCounter=timeCounter+1;
+        t=setTimeout(timeCount,1000);
+    }
+var timeCountStop=function(){
+    document.getElementById("timer").val=0;
+    clearTimeout(t);
+
+
+}
+
 /*
  * 显示页面上的卡片
  *   - 使用下面提供的 "shuffle" 方法对数组中的卡片进行洗牌
@@ -38,6 +53,7 @@ var begin=function (){
             moveC=0;
             pairOfCards=0;
             stars=3;
+            timeCounter=0;
             $(".moves").text(moveC);
     
             mycards = shuffle(mycards);
@@ -50,21 +66,25 @@ var begin=function (){
             }
             $($(".stars .fa.fa-star")[1]).show();
             $($(".stars .fa.fa-star")[2]).show();
+    
+            timeCount();
 }
 
 var openCard = function (cardID) {
     $($(".card")[cardID]).addClass("show open");
-    $($(".card")[cardID]).animate({},function(){$($(".card")[cardID]).css("transform: rotateY(0);background: #02b3e4;cursor: default;")});
         /*var CardName=$($(".card i")[cardID]).attr("class");*/
     open.push(cardID);
 }
 
 var matchCard=function(){
-    $($(".card")[open[0]]).removeClass("show open");
-    $($(".card")[open[0]]).addClass("match");
+    moveCounter();
+    if(($($(".card")[open[0]]).hasClass("match"))&&($($(".card")[open[1]]).hasClass("match"))){
+
+    return;
+    }
+    $($(".card")[open[0]]).removeClass("show open").addClass("match");
     
-    $($(".card")[open[1]]).removeClass("show open");
-    $($(".card")[open[1]]).addClass("match");
+    $($(".card")[open[1]]).removeClass("show open").addClass("match");
     
     pairOfCards=pairOfCards+1;
     open.length=0;
@@ -79,22 +99,26 @@ var matchCard=function(){
 }
 
 var resetCard=function(){
-
-
-    $($(".card")[open[0]]).removeClass("show open");
-    $($(".card")[open[1]]).removeClass("show open");
-    open.length=0;
+    moveCounter();
+    $($(".card")[open[0]]).addClass("wobble");
+    $($(".card")[open[1]]).addClass("wobble");
+    setTimeout(function(){
+        $($(".card")[open[0]]).removeClass("wobble").removeClass("show open");
+        $($(".card")[open[1]]).removeClass("wobble").removeClass("show open");
+        open.length=0;
+    },700);
+    
 
 }
 
 var moveCounter=function(){
     moveC=moveC+1;
     $(".moves").text(moveC);
-    if(moveC==33){
+    if(moveC==17){
         $($(".stars .fa.fa-star")[2]).hide();
         stars=2;
     }
-    if(moveC==49){
+    if(moveC==25){
         $($(".stars .fa.fa-star")[1]).hide();
         stars=1;
     }
@@ -102,9 +126,13 @@ var moveCounter=function(){
 }
 
 var gameProcess=function(){
+    timeCountStop();
+    
+    
     $("body").append("<div id=\"dialog\" title=\"Congratulations!\"></div>");
-    $("#dialog").append("<h1><i class=\"fa fa-refresh fa-spin fa-3x fa-fw\"></i></h1><h1>Congratulations!</h1><h1>You Won!</h1><span id=\"yourStars\">You scored </span>  with <span id=\"totalStep\">%data%</span> steps. ");
+    $("#dialog").append("<h1><i class=\"fa fa-refresh fa-spin fa-3x fa-fw\"></i></h1><h1>Congratulations!</h1><h1>You Won!</h1><span id=\"yourStars\">You scored </span>  with <span id=\"totalStep\">%data%</span> steps in <span id=\"timeCounter\">time</span> seconds. ");
     $("#totalStep").replaceWith(moveC);
+    $("#timeCounter").replaceWith(timeCounter);
     var i;
     for (i = 0; i < stars; i++) {
         $("#yourStars").append("<li><i class=\'fa fa-star\'></i></li>");
@@ -143,16 +171,15 @@ $(".card").click(function(event) {
     var cardID = $(".deck").find("li").index($(event.target));
     openCard(cardID);
     var openNum=open.length;
-    moveCounter();
     if(openNum==2){
         /*如果卡片匹配，将卡片锁定为 "open" 状态（将这个功能放在你从这个函数中调用的另一个函数中）*/
         if(mycards[open[0]]==mycards[open[1]]){
-            setTimeout(matchCard,500);
+            matchCard();
             
             /*如果卡片匹配，将卡片锁定为 "open" 状态（将这个功能放在你从这个函数中调用的另一个函数中）*/
         }
         else{
-            setTimeout(resetCard,500);
+            resetCard();
             /*如果卡片不匹配，请将卡片从数组中移除并隐藏卡片的符号*/  
         }  
     }
