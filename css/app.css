@@ -63,10 +63,20 @@ h1 {
     justify-content: center;
     align-items: center;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    -webkit-transition:transform 0.5s ;
+    -moz-transition:transform 0.5s ;
+    -o-transition:transform 0.5s ;
+    -ms-transition:transform 0.5s ;    
+    transition:transform 0.5s ;
 }
 
 .deck .card.open {
-    transform: rotateY(500);
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    
     background: #02b3e4;
     cursor: default;
 }
@@ -74,9 +84,17 @@ h1 {
 
 .deck .card.show {
     font-size: 33px;
+    
+    
 }
 
 .deck .card.match {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    
     cursor: default;
     background: #02ccba;
     font-size: 33px;
@@ -108,6 +126,13 @@ h1 {
     float: right;
     cursor: pointer;
 }
+.score-panel .panelright{
+    display:inline-block;
+    float:right;
+}
+.score-panel .panelleft{
+    display:inline-block;
+}
 
 #dialog li{
     list-style: none;
@@ -116,7 +141,7 @@ h1 {
 #dialog{
     background-color: azure;
     text-align: center;
-    font-size: 150%;
+    font-size: 120%;
 
 
 }
@@ -131,3 +156,45 @@ h1 {
     color: #222222;
     font-weight: bold;
 }
+
+
+ @keyframes wobble {
+   from {
+     transform: none;
+       background-color: #f03947;
+   }
+
+   15% {
+     transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
+       background-color: #f03947;
+   }
+
+   30% {
+     transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
+       background-color: #f03947;
+   }
+
+   45% {
+     transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
+       background-color: #f03947;
+   }
+
+   60% {
+     transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);
+       background-color: #f03947;
+   }
+
+   75% {
+     transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);
+       background-color: #f03947;
+   }
+
+   to {
+     transform: none;
+       background-color: #f03947;
+   }
+ }
+
+ .deck .card.wobble {
+     animation: wobble 0.7s;
+ }
