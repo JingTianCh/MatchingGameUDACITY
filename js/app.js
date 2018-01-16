@@ -173,10 +173,13 @@ $(".card").click(function(event) {
     var openNum=open.length;
     if(openNum==2){
         /*如果卡片匹配，将卡片锁定为 "open" 状态（将这个功能放在你从这个函数中调用的另一个函数中）*/
-        if(mycards[open[0]]==mycards[open[1]]){
+        if((mycards[open[0]]==mycards[open[1]])&&(open[0]!=open[1])){
             matchCard();
             
             /*如果卡片匹配，将卡片锁定为 "open" 状态（将这个功能放在你从这个函数中调用的另一个函数中）*/
+        }
+        else if((open[0]==open[1])||(open[0]==-1)||(open[1]==-1)){
+            open.pop();
         }
         else{
             resetCard();
