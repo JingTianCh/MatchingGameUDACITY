@@ -71,6 +71,9 @@ var begin=function (){
 }
 
 var openCard = function (cardID) {
+    if($($(".card")[cardID]).hasClass("match")){
+        return;
+    }
     $($(".card")[cardID]).addClass("show open");
         /*var CardName=$($(".card i")[cardID]).attr("class");*/
     open.push(cardID);
@@ -178,8 +181,8 @@ $(".card").click(function(event) {
             
             /*如果卡片匹配，将卡片锁定为 "open" 状态（将这个功能放在你从这个函数中调用的另一个函数中）*/
         }
-        else if((open[0]==open[1])||(open[0]==-1)||(open[1]==-1)){
-            open.slice(1,1);
+        else if((open[0]==open[1])||(open[1]==-1)){
+            open.splice(1,1);
         }
         else{
             resetCard();
